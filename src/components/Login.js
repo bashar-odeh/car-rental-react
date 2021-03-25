@@ -14,13 +14,14 @@ const Login = () => {
   const location = useLocation();
   const history = useHistory();
   let enterLogin = location.pathname.split("/")[1];
-
+  const { userStatus } = useSelector((state) => state.userStatus);
   const dispatch = useDispatch();
   // state
   const [data, setData] = useState();
 
   const submitHandler = (e) => {
     e.preventDefault();
+    e.target.checkValidity();
     dispatch(loggingInAction(data));
     // clear inputs insted of using refs
     document.querySelectorAll("input").forEach((input) => (input.value = ""));
@@ -34,41 +35,45 @@ const Login = () => {
     history.push("/");
   };
   return (
-    <StyledLogin show={enterLogin === "login" ? true : false}>
-      <form onSubmit={submitHandler}>
-        <h2>Login</h2>
-        <FormGroup>
-          <FormField
-            type="input"
-            className="form__field"
-            placeholder="Name"
-            name="username"
-            id="name"
-            onChange={dataHandler}
-          />
-          <label className="form__label">Name</label>
-        </FormGroup>{" "}
-        <FormGroup>
-          <FormField
-            type="password"
-            className="form__field"
-            placeholder="Password"
-            name="password"
-            id="password"
-            onChange={dataHandler}
-          />
-          <label className="form__label">Password</label>
-        </FormGroup>{" "}
-        <RouteUser />
-        <Buttons>
-          {" "}
-          <ButtonPrimary type="submit">Login</ButtonPrimary>
-          <ButtonCanel type="button" onClick={exitHandler}>
-            canel
-          </ButtonCanel>
-        </Buttons>
-      </form>
-    </StyledLogin>
+    <>
+      {!userStatus && (
+        <StyledLogin show={enterLogin === "login" ? true : false}>
+          <form onSubmit={submitHandler}>
+            <h2>Login</h2>
+            <FormGroup>
+              <FormField
+                type="input"
+                className="form__field"
+                placeholder="Name"
+                name="username"
+                id="name"
+                onChange={dataHandler}
+              />
+              <label className="form__label">Name</label>
+            </FormGroup>{" "}
+            <FormGroup>
+              <FormField
+                type="password"
+                className="form__field"
+                placeholder="Password"
+                name="password"
+                id="password"
+                onChange={dataHandler}
+              />
+              <label className="form__label">Password</label>
+            </FormGroup>{" "}
+            <RouteUser />
+            <Buttons>
+              {" "}
+              <ButtonPrimary type="submit">Login</ButtonPrimary>
+              <ButtonCanel type="button" onClick={exitHandler}>
+                canel
+              </ButtonCanel>
+            </Buttons>
+          </form>
+        </StyledLogin>
+      )}
+    </>
   );
 };
 const StyledLogin = styled(motion.div)`
@@ -78,8 +83,8 @@ const StyledLogin = styled(motion.div)`
   opacity: ${(props) => (props.show ? "1" : "0")};
   pointer-events: ${(props) => (props.show ? "all" : "none")};
   transition: all 0.3s ease;
-
-  position: absolute;
+  z-index: 99;
+  position: fixed;
   top: 50%;
   left: 50%;
   backdrop-filter: blur(1rem);

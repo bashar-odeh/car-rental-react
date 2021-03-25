@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation, Redirect } from "react-router-dom";
 import styled from "styled-components";
 // ACTIONS
-import loggingInAction from "../../actions/loggingInAction";
-import userDataAction from "../../actions/userDataAction";
+import isAdminLoggedIn from "../../actions/isAdminLoggedInAction";
 //REDUX
 import { useSelector, useDispatch } from "react-redux";
-const RouteUser = () => {
-  const { response } = useSelector((state) => state.userLogin);
+const RouteAdmin = () => {
+  const { response } = useSelector((state) => state.adminLoggingIn);
+  const { adminStatus, routeHolder } = useSelector(
+    (state) => state.isAdminLoggedIn
+  );
   const [res, setRes] = useState();
   const history = useHistory();
   const ref = useRef();
-  const dispatch = useDispatch();
+
   useEffect(() => {
     if (response === "sucess") {
-      history.push("/");
+      history.push("/cms");
     }
     if (response === "empty") {
       ref.current = <Wrong>You should insert data</Wrong>;
@@ -38,4 +40,4 @@ const Wrong = styled.div`
   color: red;
   background: rgb(0 0 0 /10%);
 `;
-export default RouteUser;
+export default RouteAdmin;

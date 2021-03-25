@@ -14,13 +14,9 @@ const loggingInAction = (data) => async (dispatch) => {
     });
     dispatch({
       type: "USER_LOGGING_IN",
-      payload: {
-        error: response.data.error,
-        isloggedin: response.data.isloggedin,
-        wrongInput: response.data.wrongInput,
-        disabled: response.data.disabled,
-      },
+      payload: response.data,
     });
+    console.log(response.data);
     dispatch(isUserLoggedInAction());
   } catch (error) {
     console.log(error);

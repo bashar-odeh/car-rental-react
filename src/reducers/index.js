@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 // reducers
 import loggingInReducer from "./loggingInReducer";
 import isUserLoggedInReducer from "./isUserLoggedInReducer";
-import signupCustomerReducer from "./signupCustomerReducer";
+import signupReducer from "./signupReducer";
 import userDataReducer from "./userDataReducer";
 import getAllCustomersReducer from "./getAllCustomersReducer";
 import carDataReducer from "./carDataReducer";
@@ -20,11 +20,14 @@ import sendReportReducer from "./sendReportReducer";
 import rentCarReducer from "./rentCarReducer";
 import getArchiveReducer from "./getArchiveReducer";
 import updateReportStatusReducer from "./updateReportStatusReducer";
+import adminLoggingInReducer from "./adminLoggingInReducer";
+import isAdminLoggedInReducer from "./isAdminLoggedInReducer";
+import signupAdminReducer from "./signupAdminReducer";
 
 const rootReducer = combineReducers({
   userLogin: loggingInReducer,
   userStatus: isUserLoggedInReducer,
-  signupCustomer: signupCustomerReducer,
+  signup: signupReducer,
   userDetails: userDataReducer,
   getAllCustomers: getAllCustomersReducer,
   carData: carDataReducer,
@@ -42,5 +45,8 @@ const rootReducer = combineReducers({
   rentCar: rentCarReducer,
   getArchive: getArchiveReducer,
   updateReportStatus: updateReportStatusReducer,
+  isAdminLoggedIn: isAdminLoggedInReducer,
+  adminLoggingIn: adminLoggingInReducer,
+  signupAdmin: signupAdminReducer,
 });
 export default rootReducer;

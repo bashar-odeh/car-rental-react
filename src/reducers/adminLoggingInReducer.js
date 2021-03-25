@@ -6,12 +6,12 @@ const initstate = {
 
 const loggingInReducer = (state = initstate, action) => {
   switch (action.type) {
-    case "USER_LOGGING_IN":
+    case "ADMIN_LOGGING_IN":
       return {
         ...state,
         response: action.payload,
       };
-    case "CHECKING_LOGIN_DATA":
+    case "CHECKING_ADMIN_LOGIN_DATA":
       return {
         ...state,
         response: false,

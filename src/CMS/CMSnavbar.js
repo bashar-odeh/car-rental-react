@@ -190,6 +190,15 @@ const CMSnavbar = ({ toggleNav, setToggleNav }) => {
             </Expand>
           </Hide>
         </Item>
+        <Item>
+          <StyledLink className="item" onClick={ExpandHandler} to="/cms-login">
+            <li>
+              <div>
+                <i className="fas fa-sign-out-alt"></i> <span>Logout</span>
+              </div>
+            </li>
+          </StyledLink>
+        </Item>
       </List>
     </StyledNavbar>
   );
@@ -236,6 +245,13 @@ const StyledNavbar = styled(motion.div)`
     padding: 1rem;
     text-align: center;
     width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  @media (max-width: 1000px) and (min-width: 790px) {
+    width: 20%;
   }
 `;
 const Item = styled(motion.div)`
@@ -318,8 +334,8 @@ const List = styled.ul`
     }
   }
 
-  @media (max-width: 900px) {
-    width: auto;
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 const StyledLink = styled(Link)`

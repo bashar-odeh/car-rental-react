@@ -2,6 +2,8 @@ const base_url = "http://localhost/car-rental";
 
 //login
 export const loginURL = () => `${base_url}/login/login.php`;
+export const adminloginURL = () => `${base_url}/login/adminLogin.php`;
+export const checkAdminLogin = () => `${base_url}/login/checkAdminLogin.php`;
 export const loginStatus = () => `${base_url}/login/checklogin.php`;
 export const logoutURL = () => `${base_url}/login/logout.php`;
 
@@ -33,6 +35,7 @@ export const handleRent = () => `${base_url}/admin/handleRent.php`;
 export const getReports = () => `${base_url}/admin/getReports.php`;
 export const updateReportStatus = () =>
   `${base_url}/admin/updateReportStatus.php`;
+export const signupAdmin = () => `${base_url}/admin/signupAdmin.php`;
 
 //gallery
 export const getAllCarsGallery = () => `${base_url}/cars/getAllCarsGallery.php`;

@@ -21,9 +21,11 @@ const Reviews = ({ car_details }) => {
   });
   useEffect(() => {
     if (reportResponse === true) {
-      swal("Report Sent", "", "success");
+      setTimeout(() => {
+        setSending((p) => false);
+        dispatch({ type: "IS_SENDING_REPORTS" });
+      }, 1000);
     }
-    dispatch({ type: "IS_SENDING_REPORTS" });
   }, [reportResponse]);
 
   const EmptyFeild = () => {
@@ -36,10 +38,7 @@ const Reviews = ({ car_details }) => {
     e.preventDefault();
     e.target.checkValidity();
     setSending((p) => true);
-    setTimeout(() => {
-      dispatch(sendReportAction(data));
-      setSending((p) => false);
-    }, 1000);
+    dispatch(sendReportAction(data));
   };
   return (
     <StyledReviews>

@@ -1,8 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
-import React from "react";
-
 const GlobalStyle = createGlobalStyle`
+:root{
+  
+}
+
 *,*:after,*:before{
     padding:0;
     margin:0;
@@ -20,7 +22,8 @@ body{
 
 h2{
     padding:1rem 0;
-    font-size:2rem;
+    font-size:2rem;  
+
 }
 p{
     padding:1rem 0;

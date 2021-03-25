@@ -55,9 +55,7 @@ const AddCar = () => {
     setArr([...temp]);
   }, [numberOfPic, picData, pic]);
 
-  const { isLoadingCar, carResponse } = useSelector(
-    (state) => state.signupCustomer
-  );
+  const { isLoadingCar, carResponse } = useSelector((state) => state.signup);
 
   const signupHandler = (e) => {
     e.preventDefault();
@@ -95,11 +93,11 @@ const AddCar = () => {
         withCredentials: true,
       }
     );
-    console.log(res.data);
     if (res.data === true) {
       swal("Car Registerd ", "", "success");
+
       setTimeout(() => {
-        setCurrentPage(1);
+        setCurrentPage(0);
       }, 2000);
       EmptyFeild();
     } else if (

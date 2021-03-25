@@ -5,7 +5,7 @@ const initialState = {
   carResponse: null,
 };
 
-const signupCustomerReducer = (state = initialState, action) => {
+const signupReducer = (state = initialState, action) => {
   switch (action.type) {
     // customer
     case "CUSTOMER_SIGNUP": {
@@ -40,4 +40,4 @@ const signupCustomerReducer = (state = initialState, action) => {
   }
 };
 
-export default signupCustomerReducer;
+export default signupReducer;

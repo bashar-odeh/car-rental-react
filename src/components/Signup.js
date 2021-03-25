@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 //STYLE
 import styled from "styled-components";
 //ANIMATION
@@ -19,9 +19,16 @@ const Signup = () => {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isLoading, response } = useSelector((state) => state.signupCustomer);
-  const [data, setData] = useState();
+  const { isLoading, response } = useSelector((state) => state.signup);
+  const [data, setData] = useState({
+    password: "",
+    confirm_password: "",
+  });
   let enterSignup = location.pathname.split("/")[1];
+  const ref = useRef(null);
+  const refCon = useRef(null);
+  const [warining, setWarning] = useState(false);
+
   // lottie
   const defaultOptions = {
     loop: true,
@@ -43,6 +50,20 @@ const Signup = () => {
     e.target.checkValidity();
     dispatch(SignupAction(data));
   };
+  useEffect(() => {
+    if (data.password !== data.confirm_password) {
+      setWarning(true);
+      ref.current.classList.add("de-active-btn");
+      refCon.current.classList.add("warning");
+    } else {
+      setWarning(false);
+      ref.current.classList.remove("de-active-btn");
+      refCon.current.classList.remove("warning");
+    }
+    return () => {
+      setWarning(false);
+    };
+  }, [data.password, data.confirm_password]);
   useEffect(() => {
     checkResponse();
   }, [response]);
@@ -67,7 +88,7 @@ const Signup = () => {
   };
   return (
     <StyledSignup show={enterSignup === "signup" ? true : false}>
-      <Wrapper>
+      <Wrapper show={enterSignup === "signup" ? true : false}>
         <Title>
           <h2>Sign up</h2>
         </Title>
@@ -155,13 +176,14 @@ const Signup = () => {
                 name="confirm_password"
                 id="confirm_password"
                 required
+                ref={refCon}
                 onChange={dataHandler}
               />
               <label className="form__label">Confirm Password</label>
-            </FormGroup>{" "}
+              {warining && <Warning>Password doesn't match</Warning>}
+            </FormGroup>
             <Buttons>
-              {" "}
-              <ButtonPrimary onClick={checkResponse}>
+              <ButtonPrimary ref={ref} onClick={checkResponse}>
                 <span> Sign up</span>
                 {!isLoading && (
                   <Lottie options={defaultOptions} height={20} width={20} />
@@ -170,7 +192,7 @@ const Signup = () => {
               <ButtonCanel type="button" onClick={exitSignup}>
                 canel
               </ButtonCanel>
-            </Buttons>{" "}
+            </Buttons>
           </div>
         </form>
       </Wrapper>
@@ -181,16 +203,28 @@ const StyledSignup = styled(motion.div)`
   width: 100%;
   height: 100%;
   display: flex;
-  display: ${(props) => (props.show ? "flex" : "none")};
+
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
   opacity: ${(props) => (props.show ? 1 : 0)};
   pointer-events: ${(props) => (props.show ? "all" : "none")};
-  position: absolute;
+  position: fixed;
+  z-index: 100;
   top: 50%;
   left: 50%;
   transition: all 1s ease;
   backdrop-filter: blur(1rem);
   background: rgb(0, 0, 0, 0.6);
   transform: translate(-50%, -50%);
+
+  .de-active-btn {
+    background-color: gray;
+    pointer-events: none;
+  }
+  .warning {
+    &:focus {
+      outline-color: red;
+    }
+  }
 `;
 const Title = styled(motion.div)`
   width: 100%;
@@ -203,7 +237,7 @@ const Title = styled(motion.div)`
 `;
 const Wrapper = styled(motion.div)`
   width: 80%;
-  height: 90%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -215,6 +249,11 @@ const Wrapper = styled(motion.div)`
   box-shadow: 0 0 10px black;
   background: white;
   border-radius: 1rem;
+  transition: all 0.5s ease;
+  transform: ${(props) =>
+    props.show
+      ? "translate(-50%, -50%) scale(1)"
+      : "translate(-50%, -50%) scale(0)"};
   form {
     border: 4px solid white;
     display: grid;
@@ -228,13 +267,14 @@ const Wrapper = styled(motion.div)`
     }
   }
 `;
-const FormField = styled(motion.input)`
-  width: 190%;
+const FormField = styled.input`
+  width: 180%;
   height: 100%;
+  margin-right: 0.5rem;
   border: 0;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
   outline: 0;
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: black;
   padding: 1rem 0;
   background: transparent;
@@ -243,7 +283,7 @@ const FormField = styled(motion.input)`
     color: transparent;
   }
   &:placeholder-shown ~ .form__label {
-    font-size: 1.3rem;
+    font-size: 1rem;
     cursor: text;
     top: 20px;
   }
@@ -254,8 +294,8 @@ const FormField = styled(motion.input)`
       top: 0;
       display: block;
       transition: 0.2s;
-      font-size: 1rem;
-      color: gold;
+      font-size: 0.8rem;
+      color: rgb(17, 106, 196);
       font-weight: 700;
     }
   }
@@ -264,7 +304,7 @@ const FormField = styled(motion.input)`
     box-shadow: none;
   }
 `;
-const FormGroup = styled(motion.div)`
+const FormGroup = styled.div`
   width: 100%;
   position: relative;
   padding: 15px 0 0;
@@ -275,7 +315,7 @@ const FormGroup = styled(motion.div)`
     top: 0;
     display: block;
     transition: 0.2s;
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: $gray;
   }
 `;
@@ -308,5 +348,13 @@ const ButtonPrimary = styled.button`
 `;
 const ButtonCanel = styled(ButtonPrimary)`
   background: red;
+`;
+const Warning = styled.div`
+  color: red;
+  font-size: 1.1em;
+  padding: 1rem 0;
+  transition: 1s ease all;
+  font-weight: 900;
+  text-transform: capitalize;
 `;
 export default Signup;

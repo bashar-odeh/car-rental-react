@@ -12,7 +12,7 @@ const rentCarReducer = (state = initialState, action) => {
       };
 
     case "LOADING_RENTING_REQUEST":
-      return { ...state, isLoadingRequest: true, rentResponse: null };
+      return { ...state, isLoadingRequest: true, rentResponse: false };
 
     default:
       return state;

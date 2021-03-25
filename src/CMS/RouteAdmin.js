@@ -6,12 +6,9 @@ import loggingInAction from "../../actions/loggingInAction";
 import userDataAction from "../../actions/userDataAction";
 //REDUX
 import { useSelector, useDispatch } from "react-redux";
-const RouteUser = () => {
-  const { response } = useSelector((state) => state.userLogin);
-  const [res, setRes] = useState();
-  const history = useHistory();
+const RouteAdmin = () => {
+  const { response } = useSelector((state) => state.adminLoggingIn);
   const ref = useRef();
-  const dispatch = useDispatch();
   useEffect(() => {
     if (response === "sucess") {
       history.push("/");
@@ -25,8 +22,6 @@ const RouteUser = () => {
     }
     if (response === "disabled") {
       ref.current = <Wrong>Your Account is disabled , contact the admin</Wrong>;
-    } else {
-      setRes(null);
     }
   }, [response]);
   return <div>{ref.current}</div>;
@@ -38,4 +33,4 @@ const Wrong = styled.div`
   color: red;
   background: rgb(0 0 0 /10%);
 `;
-export default RouteUser;
+export default RouteAdmin;

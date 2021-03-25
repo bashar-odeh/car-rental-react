@@ -31,15 +31,16 @@ const RentSpecs = ({ carData, isLoadingCarData }) => {
     e.preventDefault();
     e.target.checkValidity();
     setSending((p) => true);
-
-    setTimeout(() => {
-      dispatch(rentCarAction(data));
-      EmptyFeild();
-      setSending((p) => false);
-    }, 1000);
+    dispatch(rentCarAction(data));
   };
   useEffect(() => {
     dispatch(carDataAction(car_details.car_id));
+    if (rentResponse === true) {
+      setTimeout(() => {
+        EmptyFeild();
+        setSending((p) => false);
+      }, 1000);
+    }
   }, [rentResponse]);
   return (
     <StyledFilter>

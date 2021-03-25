@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../CMS/CMSnavbar";
 import Main from "../CMS/Main";
-import { Switch, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 // style
 import styled from "styled-components";
 // images
 import menu from "../images/menu.png";
 const CMS = () => {
   const [toggleNav, setToggleNav] = useState(true);
+  const { pathname } = useLocation();
 
   return (
     <Wrapper>

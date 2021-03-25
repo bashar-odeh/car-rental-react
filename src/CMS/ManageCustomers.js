@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import swal from "sweetalert";
 const ManageCustomers = () => {
   const dispatch = useDispatch();
-  const { isLoading, response } = useSelector((state) => state.signupCustomer);
+  const { isLoading, response } = useSelector((state) => state.signup);
   const [data, setData] = useState();
   const dataHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });

@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Customers from "../CMS/pages/Customers";
 import Cars from "../CMS/pages/Cars";
 import Admin from "../CMS/pages/Admin";
 import Reports from "../CMS/pages/Reports";
-import { Switch, Route } from "react-router-dom";
-import menu from "../images/menu.png";
 
+import { Switch, Route, useHistory } from "react-router-dom";
+import menu from "../images/menu.png";
+import { useSelector, useDispatch } from "react-redux";
+import isAdminLoggedInAction from "../actions/isAdminLoggedInAction";
 // style
 import styled from "styled-components";
 const Main = ({ setToggleNav, toggleNav }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { adminStatus, routeHolder } = useSelector(
+    (state) => state.isAdminLoggedIn
+  );
+  useEffect(() => {
+    if (adminStatus === false) {
+      history.push("/cms-login");
+    }
+    if (adminStatus === true) {
+      history.push("/cms");
+    }
+  }, [adminStatus]);
+
   return (
     <Wrapper toggleNav={toggleNav}>
       <Wrap>
@@ -21,7 +37,7 @@ const Main = ({ setToggleNav, toggleNav }) => {
           </Route>
           <Route path={["/cms/cars", "/cms/cars/:section"]}>
             <Cars />
-          </Route>{" "}
+          </Route>
           <Route path={["/cms/reports"]}>
             <Reports />
           </Route>{" "}
@@ -36,6 +52,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin-left: ${(props) => (props.toggleNav ? "15%" : 0)};
   transition: all 0.4s ease;
+  @media (max-width: 1000px) {
+    margin-left: ${(props) => (props.toggleNav ? "20%" : 0)};
+  }
 `;
 const Wrap = styled.div`
   width: auto;

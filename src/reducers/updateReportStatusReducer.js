@@ -1,7 +1,7 @@
 // no action file was required
 
 const initstate = {
-  response: null,
+  response: false,
   isUpdating: true,
 };
 
@@ -17,7 +17,7 @@ const updateCustomerReducer = (state = initstate, action) => {
       return {
         ...state,
         isUpdating: true,
-        response: null,
+        response: false,
       };
     default:
       return state;

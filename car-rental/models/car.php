@@ -117,7 +117,7 @@ class Car
     {
         $res = array();
         try {
-            $sql = 'SELECT *  from car_info WHERE car_id =? ';
+            $sql = 'SELECT *  from car_info WHERE car_id = ? ';
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(1, $this->car_id);
             if ($stmt->execute()) {

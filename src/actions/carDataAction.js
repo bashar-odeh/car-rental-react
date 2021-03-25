@@ -14,7 +14,6 @@ const carDataAction = (car_id) => async (dispatch) => {
       withCredentials: true,
     }
   );
-  console.log("data", data);
   dispatch({ type: "FETCHINF_CAR_DATA", payload: data });
 };
 

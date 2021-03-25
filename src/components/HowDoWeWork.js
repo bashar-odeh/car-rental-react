@@ -15,8 +15,6 @@ const HowDoWeWork = () => {
         allowFullScreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         title="YouTube video player"
-        width="100%"
-        height="100%"
         src="https://www.youtube.com/embed/b1Qh9lLGg8E?playlist=b1Qh9lLGg8E&amp;iv_load_policy=3&amp;enablejsapi=1&amp;disablekb=1&amp;autoplay=1&amp;controls=0&amp;showinfo=0&amp;rel=0&amp;loop=1&amp;wmode=transparent&amp;widget_referrer=http%3A%2F%2Fpreview.themeforest.net%2F&amp;origin=https%3A%2F%2Fautostar.templines.org&amp;widgetid=1"
       ></iframe>
 
@@ -46,8 +44,11 @@ const StyledWork = styled(motion.div)`
   height: 80vh;
   position: relative;
   clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 85%);
+  width: 100%;
+  overflow: hidden;
   iframe {
     width: 100%;
+    height: 100%;
     pointer-events: none;
     position: relative;
     transform: scale(1.4);

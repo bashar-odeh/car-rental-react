@@ -9,7 +9,6 @@ include_once '../models/admin.php';
 include_once '../testInput.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $db = new Database();
     $conn = $db->connect();
     $admin = new Admin($conn);

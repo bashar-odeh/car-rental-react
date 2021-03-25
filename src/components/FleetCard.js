@@ -148,6 +148,9 @@ const Price = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  span {
+    color: #174bad;
+  }
 `;
 
 const Advantages = styled(motion.div)`
@@ -191,6 +194,7 @@ const Specs = styled(motion.div)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 0.8em;
   }
   img {
     height: 30px;

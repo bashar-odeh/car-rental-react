@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import updateReportStatusAction from "../actions/updateReportStatusAction";
 import { useSelector, useDispatch } from "react-redux";
 const Report = ({ report_id, name, message, email, archive }) => {
   const dispatch = useDispatch();
+  const { response } = useSelector((state) => state.updateReportStatus);
+  useEffect(() => {
+    if (response === true) {
+      dispatch({ type: "UPDATEING_REPORT" });
+    }
+  }, [response]);
   const sendToArchive = (e) => {
     dispatch(updateReportStatusAction(report_id));
   };
@@ -22,7 +28,7 @@ const Report = ({ report_id, name, message, email, archive }) => {
       </div>
       <div className="body">
         <p>{message}</p>
-      </div>{" "}
+      </div>
     </Wrapper>
   );
 };
