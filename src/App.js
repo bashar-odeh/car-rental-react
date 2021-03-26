@@ -11,7 +11,13 @@ import CMS_Signup from "./pages/CMS_Signup";
 import GlobalStyle from "./components/GlobalStyle";
 import Navbar from "./components/Navbar";
 // ROUTING
-import { Route, Switch, useLocation, Redirect } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useLocation,
+  Redirect,
+  useParams,
+} from "react-router-dom";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 // action
@@ -28,6 +34,7 @@ function App() {
   const { adminStatus, routeHolder } = useSelector(
     (state) => state.isAdminLoggedIn
   );
+
   const dispatch = useDispatch();
   useEffect(() => {
     //whenever a re-redner happens this check for user login status
@@ -39,11 +46,14 @@ function App() {
       .then(() => {
         return messaging.getToken();
       })
-      .then((token) => {})
+      .then((token) => {
+        console.log(token);
+      })
       .catch((err) => {
         console.log(err);
       });
     messaging.onMessage((payload) => {
+      console.log("payload", payload);
       if (payload.data.body === "REQ") {
         dispatch(getDealsAction());
       } else if (payload.data.body === "handlerent") {
@@ -66,13 +76,13 @@ function App() {
         </Route>
         <Route path="/gallery">
           <Gallery />
-        </Route>{" "}
+        </Route>
         <Route path="/account">
           <Account />
         </Route>
-        <Route path={["/cardetails", "/cardetails/:id"]}>
+        <Route path={["/cardetails/:id"]}>
           <CarDetails />
-        </Route>{" "}
+        </Route>
         <Route path={["/cms"]}>
           <CMS />
         </Route>

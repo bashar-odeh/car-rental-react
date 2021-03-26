@@ -18,6 +18,9 @@ const RentSpecs = ({ carData, isLoadingCarData }) => {
 
   const [data, setData] = useState({
     cost: car_details.cost,
+    pick_up: null,
+    drop_off: null,
+    car_style_id: "",
   });
   const [sending, setSending] = useState(false);
 
@@ -34,12 +37,20 @@ const RentSpecs = ({ carData, isLoadingCarData }) => {
     dispatch(rentCarAction(data));
   };
   useEffect(() => {
-    dispatch(carDataAction(car_details.car_id));
     if (rentResponse === true) {
       setTimeout(() => {
         EmptyFeild();
+        setData({
+          ...data,
+          cost: car_details.cost,
+          pick_up: "",
+          drop_off: "",
+          car_style_id: "",
+        });
+        dispatch(carDataAction(car_details.car_id));
+        dispatch({ type: "LOADING_RENTING_REQUEST" });
         setSending((p) => false);
-      }, 1000);
+      }, 500);
     }
   }, [rentResponse]);
   return (
@@ -64,7 +75,13 @@ const RentSpecs = ({ carData, isLoadingCarData }) => {
         <Wrapper>
           <InputGroup>
             <label htmlFor="pick-up">Pick Up Location</label>
-            <select name="pick_up" id="pick_up" onChange={dataHandler} required>
+            <select
+              name="pick_up"
+              id="pick_up"
+              onChange={dataHandler}
+              value={data.pick_up}
+              required
+            >
               <option value="">Select pick up</option>
               <option value="tulkarm">Tulkarm</option>
               <option value="tulkarm">Tulkarm</option>
@@ -79,6 +96,7 @@ const RentSpecs = ({ carData, isLoadingCarData }) => {
               id="drop_off"
               name="drop_off"
               onChange={dataHandler}
+              value={data.drop_off}
               required
             >
               <option value="">Select drop off</option>
@@ -95,6 +113,7 @@ const RentSpecs = ({ carData, isLoadingCarData }) => {
               id="color"
               name="car_style_id"
               onChange={dataHandler}
+              value={data.car_style_id}
               required
             >
               <option value={null}>Select Color</option>

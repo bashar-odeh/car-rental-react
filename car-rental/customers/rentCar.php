@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['login'])) {
     $customer->end_date = $postData['end_date'];
     $customer->pick_up = $postData['pick_up'];
     $customer->drop_off = $postData['drop_off'];
-    $customer->deal_cost = $postData['cost'];
+    $cost = $postData['cost'];
+    $customer->deal_cost = ((strtotime($customer->end_date) - strtotime($customer->start_date)) / 60 / 60 / 24) * $cost;
     $customer->deal_status = 'not';
     $response = $customer->rentCar();
     if ($response === true) {

@@ -16,23 +16,15 @@ const Main = ({ setToggleNav, toggleNav }) => {
   const { adminStatus, routeHolder } = useSelector(
     (state) => state.isAdminLoggedIn
   );
-  useEffect(() => {
-    if (adminStatus === false) {
-      history.push("/cms-login");
-    }
-    if (adminStatus === true) {
-      history.push("/cms");
-    }
-  }, [adminStatus]);
 
   return (
     <Wrapper toggleNav={toggleNav}>
       <Wrap>
         <Switch>
-          <Route path={["/cms/admin", "/cms/admin/:section"]} exact>
+          <Route path={["/cms/admin", "/cms/admin/:section"]}>
             <Admin />
           </Route>
-          <Route path={["/cms/customers", "/cms/customers/:section"]} exact>
+          <Route path={["/cms/customers", "/cms/customers/:section"]}>
             <Customers />
           </Route>
           <Route path={["/cms/cars", "/cms/cars/:section"]}>

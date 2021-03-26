@@ -28,7 +28,6 @@ const Wrapper = styled.div`
   background: #f7f7f7;
   min-height: 100vh;
   width: 100%;
-
   .active {
     transform: translateX(0);
     opacity: 1;

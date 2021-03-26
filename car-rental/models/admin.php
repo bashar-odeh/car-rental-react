@@ -30,6 +30,10 @@ class Admin
     //
     public $report_status;
     public $report_id;
+    //
+    public $admin_id;
+    public $admin_password;
+    public $admin_status;
 
 
 
@@ -139,15 +143,39 @@ class Admin
             return $err->getMessage();
         }
     }
+    public function signUpAdmin()
+    {
+        try {
+            // first check if the customer exists or not
+            $sql  = 'SELECT `id` FROM `admin` WHERE `id`=?';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $this->admin_id);
+            $stmt->execute();
+            if ($stmt->rowCount() !== 0) {
+                return 'exists';
+            }
+            //
+            $sql = 'INSERT INTO `admin`(`id`, `password`,`status`) VALUES (?,?,?)';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $this->admin_id);
+            $stmt->bindParam(2, $this->admin_password);
+            $stmt->bindParam(3, $this->admin_status);
+
+            if ($stmt->execute()) return true;
+        } catch (PDOEXCEPTION $err) {
+
+            return $err->getMessage();
+        }
+    }
     function sendGCM($message)
     {
-
 
         $url = 'https://fcm.googleapis.com/fcm/send';
 
 
         $fields = array(
-            'to' => 'dBoYaupiIHPc_tKX0fHyT3:APA91bGhDwgp8IcWOLRWwG__tSDrEBc_Ns59XND4RmjqFemiP6wHDKQPeJzpGg5fD-T750Ul7xdvyHpS_E4e1xZzDo1js6q9CXYMBK7b77jA9A53mUAAUbbjps3MY3EvjHbigLN9mD8g',
+            'to' => 'dBoYaupiIHPc_tKX0fHyT3:APA91bHsEf08nkUI-GsP8LZl8a-Hhf1FONPQFVwN1LxAkNAt5uk-FZbaMECn_LVMgeklYCRQcYw5A30w4YBN2TD5jQ19bMc7-Fpk-5ZfPVjD6KvMql6QPtS4siaksDHLryId6a2vsaiG
+            ',
             'data' => array(
                 'body' => $message
             )
@@ -165,7 +193,6 @@ class Admin
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-
         $result = curl_exec($ch);
         curl_close($ch);
         return $result;

@@ -9,36 +9,69 @@ class signin
     {
         $this->conn = $conn;
     }
-    function getUserDetails($username, $password): array
+    function getUserDetails($username, $password)
     {
-        $result  = array("isloggedin" => false, "wrongInput" => true, "error" => '', 'disabled' => false);
+        $result = '';
         if (empty(trim($username))) {
+            $result = 'empty';
             return $result;
         }
         try {
-            $sql = "SELECT `customer_ID`, `password` , `status` from customer_info where customer_ID= ?";
+            $sql = "SELECT `customer_id`, `password` , `status` from customer_info where customer_id= ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(1, $username);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $fetched_username = $row['customer_ID'];
+            $fetched_username = $row['customer_id'];
             $fetched_password = $row['password'];
             $fetched_status = $row['status'];
             if ($fetched_status === 0) {
-                $result['disabled'] = true;
+                $result = 'disabled';
                 return $result;
             }
             $de_hashed = password_verify($password, $fetched_password);
             if ($fetched_username === $username && $de_hashed) {
                 $_SESSION["login"] = $fetched_username;
-                $result['isloggedin'] = true;
-                $result['wrongInput'] = false;
+                $result = 'sucess';
             } else {
-                $result['wrongInput'] = true;
+                $result = 'wrong';
             }
             return $result;
         } catch (Exception $err) {
-            $result['error'] = $err->getMessage();
+            $result = $err->getMessage();
+        }
+        return $result;
+    }
+    function adminLogin($username, $password)
+    {
+        $result = '';
+        if (empty(trim($username))) {
+            $result = 'empty';
+            return $result;
+        }
+        try {
+            $sql = "SELECT * FROM `admin` WHERE   id= ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1, $username);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $fetched_username = $row['id'];
+            $fetched_password = $row['password'];
+            $fetched_status = $row['status'];
+            if ($fetched_status === 0) {
+                $result = 'disabled';
+                return $result;
+            }
+            $de_hashed = password_verify($password, $fetched_password);
+            if ($fetched_username === $username && $de_hashed) {
+                $_SESSION["admin"] = $fetched_username;
+                $result = 'sucess';
+            } else {
+                $result = 'wrong';
+            }
+            return $result;
+        } catch (Exception $err) {
+            $result = $err->getMessage();
         }
         return $result;
     }

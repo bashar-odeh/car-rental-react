@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import RentSpecs from "../components/CarDetails/RentSpecs";
 import Body from "../components/CarDetails/Body";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import * as loading from "../lottie/loading.json";
 import carDataAction from "../actions/carDataAction";
@@ -17,6 +17,7 @@ const Gallery = () => {
 
   const dispatch = useDispatch();
   const location = useLocation();
+
   let car_id = location.pathname.split("/")[2];
   useEffect(() => {
     dispatch(carDataAction(car_id));
