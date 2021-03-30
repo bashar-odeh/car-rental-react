@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../CMS/CMSnavbar";
 import Main from "../CMS/Main";
-import { useLocation } from "react-router-dom";
+import { useLocation, Redirect, useHistory } from "react-router-dom";
 // style
 import styled from "styled-components";
 // images
 import menu from "../images/menu.png";
+import { useDispatch, useSelector } from "react-redux";
+import isAdminLoggedInAction from "../actions/isAdminLoggedInAction";
 const CMS = () => {
   const [toggleNav, setToggleNav] = useState(true);
   const { pathname } = useLocation();
+  const { adminStatus, routeHolder } = useSelector(
+    (state) => state.isAdminLoggedIn
+  );
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <Wrapper>
       <StyledHaeder>
+        {/* {adminStatus && <Redirect to={pathname} />}
+        {adminStatus === false && <Redirect to="/cms-login" />} */}
         <div className="header"></div>
         <div onClick={() => setToggleNav(!toggleNav)}>
           <img src={menu} alt="" /> <h2>Car Rental</h2>

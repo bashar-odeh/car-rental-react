@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 //styling
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -15,42 +15,40 @@ const RentSpecs = ({ carData, isLoadingCarData }) => {
   const updateWishList = (type, car_id) => {
     dispatch(updateWishlistItem(type, car_id));
   };
-
+  const ref = useRef();
   const [data, setData] = useState({
     cost: car_details.cost,
     pick_up: null,
     drop_off: null,
     car_style_id: "",
   });
-  const [sending, setSending] = useState(false);
 
   const dataHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  const EmptyFeild = () => {
-    document.querySelectorAll("input").forEach((input) => (input.value = ""));
-  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     e.target.checkValidity();
-    setSending((p) => true);
-    dispatch(rentCarAction(data));
+    (async function () {
+      ref.current.innerText = "sending";
+      ref.current.classList.add("sending");
+      await dispatch(rentCarAction(data));
+    })();
   };
   useEffect(() => {
     if (rentResponse === true) {
-      setTimeout(() => {
-        EmptyFeild();
-        setData({
-          ...data,
-          cost: car_details.cost,
-          pick_up: "",
-          drop_off: "",
-          car_style_id: "",
-        });
-        dispatch(carDataAction(car_details.car_id));
-        dispatch({ type: "LOADING_RENTING_REQUEST" });
-        setSending((p) => false);
-      }, 500);
+      setData({
+        ...data,
+        cost: car_details.cost,
+        pick_up: "",
+        drop_off: "",
+        car_style_id: "",
+      });
+      dispatch({ type: "LOADING_RENTING_REQUEST" });
+      ref.current.innerText = "Book this car";
+      ref.current.classList.remove("sending");
+      dispatch(carDataAction(car_details.car_id));
     }
   }, [rentResponse]);
   return (
@@ -141,29 +139,15 @@ const RentSpecs = ({ carData, isLoadingCarData }) => {
             />
           </InputGroup>
         </Wrapper>
-        {userStatus && !isLoadingCarData && (
-          <>
-            {!sending && (
-              <Buttons>
-                <button type="submit">Book this car</button>
-              </Buttons>
-            )}{" "}
-            {sending && (
-              <Buttons>
-                <button
-                  style={{ pointerEvents: "none", backgroundColor: "gray" }}
-                  type="submit"
-                >
-                  Sending
-                </button>
-              </Buttons>
-            )}
-          </>
+        {userStatus && (
+          <Buttons>
+            <button ref={ref} type="submit">
+              Book this car
+            </button>
+          </Buttons>
         )}
         {!userStatus && (
-          <Buttons>
-            <StyledLink to="/login">Login to Book this car</StyledLink>
-          </Buttons>
+          <StyledLink to="/login">Login to Book this car</StyledLink>
         )}
       </Form>
     </StyledFilter>
@@ -176,6 +160,10 @@ const StyledFilter = styled(motion.div)`
   display: flex;
   flex-direction: column;
   background: #f7f7f7;
+  .sending {
+    background: gray;
+    pointer-events: none;
+  }
 `;
 const Price = styled(motion.div)`
   height: 8vh;
@@ -236,75 +224,53 @@ const InputGroup = styled.div`
   align-items: space-around;
 
   label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: black;
     font-weight: bold;
     width: 100%;
-    padding: 0.5rem 0;
+    padding: 1em 0;
   }
   select,
   input {
+    font-size: 0.7rem;
+
     width: 110%;
-    padding: 0.5rem;
+    padding: 1em;
     color: gray;
     &:focus {
       outline-color: rgb(16, 106, 196);
     }
   }
 `;
-const InputCheck = styled(InputGroup)`
-  flex-direction: row;
-  padding-top: 0.5rem;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #ddd;
-  input[type="checkbox"] {
-    margin-right: 5px;
-    width: auto;
-  }
-  label {
-    width: auto;
-    font-size: 0.7rem;
-    color: black;
-    font-weight: normal;
-  }
-  div {
-    padding: 0.5rem 0;
-    span {
-      font-size: 0.8rem;
-      color: #174bad;
-      font-weight: bolder;
-    }
-  }
-`;
+
 const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 2rem;
 `;
 
 const Buttons = styled(motion.div)`
-  padding: 1rem;
-  width: 100%;
-
+  width: 110%;
+  margin: 0 auto;
   span,
   button {
     width: 100%;
-    padding: 1rem;
+    padding: 1em;
     border: none;
     color: white;
     font-weight: bold;
     background: #1d62e0;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 `;
 const StyledLink = styled(Link)`
   width: 100%;
-  padding: 1rem;
+  padding: 1em;
   border: none;
   color: white;
   font-weight: bold;
   background: #1d62e0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-decoration: none;
+  text-align: center;
 `;
 export default RentSpecs;

@@ -11,7 +11,6 @@ const CMS_Signup = () => {
   const { response } = useSelector((state) => state.signupAdmin);
   const ref = useRef(null);
   const [warining, setWarning] = useState(false);
-
   const [data, setData] = useState({
     password: "",
     confirm_password: "",

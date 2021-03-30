@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import logo from "../images/logo.png";
 import adminLogin from "../actions/adminLogin";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import RouteAdmin from "../components/Routing/RouteAdmin";
+import { Link, Redirect } from "react-router-dom";
+import isAdminLoggedInAction from "../actions/isAdminLoggedInAction";
+import getCustomerDealsAction from "../actions/getCustomerDealsAction";
+import getReportsAction from "../actions/getReportsAction";
+import getDealsAction from "../actions/getDealsAction";
+import firebase from "firebase";
 const CMSLogin = () => {
   const { adminStatus } = useSelector((state) => state.isAdminLoggedIn);
   const dispatch = useDispatch();
@@ -14,14 +18,40 @@ const CMSLogin = () => {
     e.preventDefault();
     e.target.checkValidity();
     dispatch(adminLogin(data));
-    // clear inputs insted of using refs
     document.querySelectorAll("input").forEach((input) => (input.value = ""));
   };
+  useEffect(() => {
+    dispatch(isAdminLoggedInAction());
+  }, [dispatch]);
+  useEffect(() => {
+    const messaging = firebase.messaging();
+    messaging
+      .requestPermission()
+      .then(() => {
+        return messaging.getToken();
+      })
+      .then((token) => {
+        setData({ ...data, token });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    messaging.onMessage((payload) => {
+      if (payload.data.body === "REQ") {
+        dispatch(getDealsAction());
+      } else if (payload.data.body === "handlerent") {
+        dispatch(getCustomerDealsAction());
+      } else if (payload.data.body === "report") {
+        dispatch(getReportsAction(0));
+      }
+    });
+  }, []);
   const dataHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   return (
     <StyledLogin>
+      {/* {adminStatus === true && <Redirect to="/cms" />} */}
       <Form onSubmit={submitHandler}>
         <Logo>
           <img src={logo} alt="" />
@@ -51,7 +81,6 @@ const CMSLogin = () => {
         </FormGroup>
         <ButtonPrimary>Login</ButtonPrimary>
       </Form>
-      <RouteAdmin />
     </StyledLogin>
   );
 };

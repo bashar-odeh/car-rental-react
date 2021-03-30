@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // pages
 import HomePage from "./pages/HomePage";
 import Gallery from "./pages/Gallery";
@@ -31,41 +31,29 @@ import firebase from "./firebase";
 import { getReports } from "./api";
 function App() {
   const { userStatus } = useSelector((state) => state.userStatus);
-  const { adminStatus, routeHolder } = useSelector(
-    (state) => state.isAdminLoggedIn
-  );
-
+  const { adminStatus } = useSelector((state) => state.isAdminLoggedIn);
   const dispatch = useDispatch();
   useEffect(() => {
     //whenever a re-redner happens this check for user login status
-    dispatch(isUserLoggedInAction());
-    dispatch(isAdminLoggedInAction());
-    const messaging = firebase.messaging();
-    messaging
-      .requestPermission()
-      .then(() => {
-        return messaging.getToken();
-      })
-      .then((token) => {
-        console.log(token);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    messaging.onMessage((payload) => {
-      console.log("payload", payload);
-      if (payload.data.body === "REQ") {
-        dispatch(getDealsAction());
-      } else if (payload.data.body === "handlerent") {
-        dispatch(getCustomerDealsAction());
-      } else if (payload.data.body === "report") {
-        dispatch(getReportsAction(0));
-      }
-    });
-  }, []);
+    (async function () {
+      await dispatch(isAdminLoggedInAction());
+    })();
+  }, [adminStatus]);
+  useEffect(() => {
+    (async function () {
+      await dispatch(isUserLoggedInAction());
+    })();
+  }, [userStatus]);
   const { pathname } = useLocation();
 
   let cmsPath = pathname.split("/")[1];
+  const pageHandler = () => {
+    if (adminStatus === true) {
+      return <CMS />;
+    } else if (adminStatus === false) {
+      return <CMSLogin />;
+    }
+  };
   return (
     <div className="App">
       <GlobalStyle />
@@ -80,17 +68,16 @@ function App() {
         <Route path="/account">
           <Account />
         </Route>
-        <Route path={["/cardetails/:id"]}>
+        <Route path={["/cardetails", "/cardetails/:id"]}>
           <CarDetails />
         </Route>
-        <Route path={["/cms"]}>
-          <CMS />
-        </Route>
-        <Route path={["/cms-login"]}>
-          {routeHolder ? <Redirect to="/cms" /> : <CMSLogin />}
-        </Route>
+        <Route path={["/cms"]}>{pageHandler()}</Route>
+
         <Route path={["/cms-signup"]}>
           <CMS_Signup />
+        </Route>
+        <Route>
+          <span>405</span>
         </Route>
       </Switch>
     </div>

@@ -5,9 +5,7 @@ import Admin from "../CMS/pages/Admin";
 import Reports from "../CMS/pages/Reports";
 
 import { Switch, Route, useHistory } from "react-router-dom";
-import menu from "../images/menu.png";
 import { useSelector, useDispatch } from "react-redux";
-import isAdminLoggedInAction from "../actions/isAdminLoggedInAction";
 // style
 import styled from "styled-components";
 const Main = ({ setToggleNav, toggleNav }) => {
@@ -32,7 +30,7 @@ const Main = ({ setToggleNav, toggleNav }) => {
           </Route>
           <Route path={["/cms/reports"]}>
             <Reports />
-          </Route>{" "}
+          </Route>
         </Switch>
       </Wrap>
     </Wrapper>

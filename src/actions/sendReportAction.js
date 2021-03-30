@@ -8,7 +8,7 @@ const sendReportAction = (details) => async (dispatch) => {
     headers: headers,
     withCredentials: true,
   });
-  console.log(data);
+
   dispatch({ type: "SENDING_REPORTS", payload: data });
 };
 

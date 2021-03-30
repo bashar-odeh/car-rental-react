@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 //STYLE
 import styled from "styled-components";
 //ANIMATION
@@ -16,6 +16,7 @@ import navbg from "../images/Liquid-Cheese.svg";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { userStatus } = useSelector((state) => state.userStatus);
+  const [state, setstate] = useState(sessionStorage.getItem("token"));
   const userLogout = async () => {
     let res = await axios.get(logoutURL(), { withCredentials: true });
     dispatch(isUserLoggedInAction());
@@ -46,24 +47,26 @@ const Navbar = () => {
             <li>Gallery</li>
           </StyledLink>
           {!userStatus && (
-            <StyledLink to={"/login"}>
-              <li>Login</li>
-            </StyledLink>
-          )}
-          {!userStatus && (
-            <StyledLink to={"/signup"}>
-              <li>Sign up</li>
-            </StyledLink>
-          )}{" "}
-          {userStatus && (
-            <StyledLink to={"/account"}>
-              <li>Profile</li>
-            </StyledLink>
+            <>
+              <StyledLink to={"/login"}>
+                <li>Login</li>
+              </StyledLink>
+
+              <StyledLink to={"/signup"}>
+                <li>Sign up</li>
+              </StyledLink>
+            </>
           )}
           {userStatus && (
-            <StyledLink onClick={userLogout} to={"/"}>
-              <li>Logout</li>
-            </StyledLink>
+            <>
+              <StyledLink to={"/account"}>
+                <li>Profile</li>
+              </StyledLink>
+
+              <StyledLink onClick={userLogout} to={"/"}>
+                <li>Logout</li>
+              </StyledLink>
+            </>
           )}
         </ul>
       </StyledNav>

@@ -23,6 +23,7 @@ import updateReportStatusReducer from "./updateReportStatusReducer";
 import adminLoggingInReducer from "./adminLoggingInReducer";
 import isAdminLoggedInReducer from "./isAdminLoggedInReducer";
 import signupAdminReducer from "./signupAdminReducer";
+import tokenReducer from "./tokenReducer";
 
 const rootReducer = combineReducers({
   userLogin: loggingInReducer,
@@ -48,5 +49,6 @@ const rootReducer = combineReducers({
   isAdminLoggedIn: isAdminLoggedInReducer,
   adminLoggingIn: adminLoggingInReducer,
   signupAdmin: signupAdminReducer,
+  token: tokenReducer,
 });
 export default rootReducer;
