@@ -1,70 +1,14 @@
-# Getting Started with Create React App
+#Overview 
+This is a full stack porject using React for the frontend and php for backend . Web APIs used to send data between user and server and vise virsa. 
+It also includes a content management system (CMS) where admin can handle all requests and get notified whenver a request comes in using firebase realtime database.
+For React state management Redux is used to handle the states .
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#Technologies 
 
-## Available Scripts
+Frontend : React, Styled component is used to style components using SASS 
+Backend : PHP,backend is class structured using  PHP OOP . each table represented in a class model where controller initilize the model and handle the data to it .   
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![localhost_3000_ (1)](https://user-images.githubusercontent.com/64036214/147961069-bd0d0da9-f57f-4468-a256-b97866ebba6c.png)
+![localhost_3000_ (2)](https://user-images.githubusercontent.com/64036214/147961151-db3a30ea-9a48-4f62-ba09-a59204b46f2c.png)
+![localhost_3000_cms_cars_allcars](https://user-images.githubusercontent.com/64036214/147970641-e73bdcd6-ec5b-4761-995b-54e1c2cf4763.png)
+![localhost_3000_cms_customers_allcustomers](https://user-images.githubusercontent.com/64036214/147970654-da3a830a-2e8c-406e-a796-66bde5c6ac84.png)
